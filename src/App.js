@@ -7,13 +7,13 @@ import Auth from "./Components/Authentication/Auth";
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
         <div>
             <Routes>
               <Route path="/auth/*" element={<Auth />}/>
             </Routes>
         </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

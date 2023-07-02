@@ -1,14 +1,11 @@
 import React from 'react'
 import { Routes,Route } from 'react-router-dom'
-import Register from './Register'
-import Signin from './Signin'
-
+import AuthComponent from './AuthComponent'
 
 function Auth() {
   return (
     <Routes>
-        <Route path='/register' element={<Register />}/>
-        <Route path='/login' element={<Signin />}/>
+        <Route path='/' element={<AuthComponent />}/>
     </Routes>
   )
 }

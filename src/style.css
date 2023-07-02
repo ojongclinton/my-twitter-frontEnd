@@ -1,0 +1,59 @@
+*{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    padding:0px;
+
+    margin: 0px;
+}
+
+div.registerModal .MuiInputLabel-root {
+    color: grey !important;
+}
+div.registerModal .MuiInputBase-root {
+    color: white;
+    border-color: grey; /* Customize the border as desired */
+}
+div.registerModal form{
+    padding: 30px 0px;
+}
+div.registerModal .modal-header{
+    color: #e7e9ea;
+}
+div.modal-container{
+    margin: 0px 20px;
+}
+div.btnContainer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+div.registerModal span{
+    color: #B22222;
+    font-size: 12px;
+}
+
+.error{
+    color: #B22222;
+}
+.css-sghohy-MuiButtonBase-root-MuiButton-root.Mui-disabled{
+    opacity: 0.3;
+    background-color: gray !important;
+    color: white !important;
+}
+div.authComponent{
+    background-image:url('./assets/twitterOrig.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+}
+div.authLinks{
+    color: white;
+    background-color: #000000;
+    height: 700px;
+}
+div.birdContainer{
+    width: fit-content;
+    margin: auto;
+    margin-top: 200px;
+}
