@@ -14,3 +14,14 @@ export const textField = {
           },
     }
   }
+
+export const modalStyle ={
+  backgroundColor:"#000000",
+  color:"white",
+  position:"absolute",
+  left:"30%",
+  top:"15%",
+  maxWidth:"500px",
+  padding:"15px",
+  borderRadius:"10px"
+}

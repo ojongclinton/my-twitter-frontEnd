@@ -2,9 +2,13 @@ import { Grid, Modal, TextField, Fade, Button } from "@mui/material"
 import { useForm } from 'react-hook-form'
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { textField } from "./muiStyles";
-import { useState } from "react";
-import { useEffect } from "react";
+import { modalStyle, textField } from "./muiStyles";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "./authSlice";
+import {Spinner} from "../ReUse/Spinner"
+import { toast } from "react-toastify";
+
 
 const emailRegex = /^\S+@\S+$/i;
 
@@ -17,20 +21,13 @@ const schema = yup.object({
     .oneOf([yup.ref('password')], 'Passwords does not match'),
   }).required();
 
-const modalStyle ={
-    backgroundColor:"#000000",
-    color:"white",
-    position:"absolute",
-    left:"30%",
-    top:"15%",
-    maxWidth:"500px",
-    padding:"15px",
-    borderRadius:"10px"
-  }
 
 
 const RegisterModal =({regisModal,setRegisModal}) =>{
-    const { register, formState: { errors,dirtyFields }, handleSubmit, getValues} = useForm({
+  const navigate = useNavigate()
+  const [signUp,{isLoading,data,error}] = useRegisterMutation()
+
+    const { register, formState: { errors,dirtyFields }, handleSubmit, getValues,reset} = useForm({
         resolver: yupResolver(schema),
          defaultValues: { firstName: "",lastName:"",email:"",password:"" }
       });
@@ -38,19 +35,36 @@ const RegisterModal =({regisModal,setRegisModal}) =>{
       setRegisModal(false)
     }
     const [step,setStep] = useState(1)
+
     const handleNexStep =()=>{
-      setStep(prev=>prev+1)
+      setTimeout(()=>{
+        setStep(prev=>prev+1)
+      },500)
+      console.log("next step")
     }
     const handleLastStep =()=>{
       setStep(prev=>prev-1)
     }
 
     const onSubmit =(data,event)=>{
-      event.preventDefault()
-      console.log(data)
+      signUp(data)
     }
+    useEffect(()=>{
+      if(data?.code && data?.code !== 'SUCCESS'){
+        toast.error("An error occured during registeration",{position:toast.POSITION.TOP_RIGHT})
+          reset()
+          handleRegisClose()
+          setStep(1)
+      }
+      if(data?.code === 'SUCCESS'){
+        toast.success("Registration succesfull",{position:toast.POSITION.TOP_RIGHT})
+      }
+    },[data])
     const [email,setEmail] = useState("");
     const [emailValid,setEmailValid] = useState(false);
+
+    const [p,sp] = useState("") //Password, Set Password
+    const [cP,sCp] = useState("") // Confirm password , set Confirm password
 
     const validateStepOne = ()=>{
       if(dirtyFields.email && dirtyFields.firstName && dirtyFields.lastName && emailValid){
@@ -60,7 +74,7 @@ const RegisterModal =({regisModal,setRegisModal}) =>{
     }
 
     const validateStepTwo = ()=>{
-      if(dirtyFields.password){
+      if(dirtyFields.password && p === cP){
         return false
       }
       return true
@@ -75,6 +89,7 @@ const RegisterModal =({regisModal,setRegisModal}) =>{
       <Modal
         open={regisModal}
         onClose={handleRegisClose}
+        
         >
         <div style={modalStyle} className="registerModal">
           <div className="modal-container">
@@ -105,11 +120,11 @@ const RegisterModal =({regisModal,setRegisModal}) =>{
                   <div style={{ display: step === 2 ? 'block' : 'none' }}>
                     <Grid container spacing={2}>
                         <Grid item xl={12} lg={12} md={12} sm={12}>
-                            <TextField error={errors.password?true:false} fullWidth type="password" sx={textField} label="password" {...register("password")} />
+                            <TextField onInput={e=>sp(e.target.value)} error={errors.password?true:false} fullWidth type="password" sx={textField} label="password" {...register("password")} />
                             <span>{errors.password?.message}</span>
                         </Grid>
                         <Grid item xl={12} lg={12} md={12} sm={12}>
-                            <TextField error={errors.confirmPassword?true:false} fullWidth type="password" sx={textField} label="confirm password" {...register("confirmPassword")} />
+                            <TextField onInput={e=>sCp(e.target.value)} error={cP!==p} fullWidth type="password" sx={textField} label="confirm password" {...register("confirmPassword")} />
                             <span>{errors.confirmPassword?.message}</span>
                         </Grid>
                     </Grid>
@@ -128,17 +143,22 @@ const RegisterModal =({regisModal,setRegisModal}) =>{
                             <TextField InputProps={{readOnly:true}} value={getValues("email")} fullWidth type="email" sx={textField} label="Email" />
                         </Grid>
                         <Grid item xl={12} lg={12} md={12} sm={12}>
-                            <TextField InputProps={{readOnly:true}}  fullWidth type="password" sx={textField} label="confirm password" value={getValues("password")} />
+                            <TextField InputProps={{readOnly:true}}  fullWidth type="password" sx={textField} label="password" value={getValues("password")} />
                         </Grid>
                     </Grid>
                   </div>
                 </Fade>
                   <div className="btnContainer">
                     <Button disabled={step===1} variant="contained" onClick={handleLastStep}>Previous</Button>
-                    {step===3?(
-                        <Button variant="outlined" type="submit" disabled={validateStepTwo()}>Create Account</Button>
+                    {step===3?( isLoading?(
+                      <Spinner />
                     ):(
-                        <Button variant="contained" disabled={validateStepOne()} onClick={handleNexStep}>Next</Button>
+                      <Button variant="outlined" type="submit">Create Account</Button>
+                    )
+                    ):step===1?(
+                        <Button type="button" variant="contained" disabled={validateStepOne()} onClick={handleNexStep}>Next</Button>
+                    ):(
+                        <Button type="button" variant="contained" disabled={validateStepTwo()} onClick={handleNexStep}>Next</Button>
                     )}
                   </div>
               </form>

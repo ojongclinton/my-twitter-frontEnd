@@ -17,17 +17,28 @@ function AuthComponent() {
       <Grid container spacing={0}>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
             <div className='birdContainer'>
-              <AiOutlineTwitter color='white' size={200}/>
+              <AiOutlineTwitter color='white' size={300}/>
             </div>
           </Grid>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
             <div className='authLinks'>
-
+              <div>
+                <h1>Happening Now</h1>
+              </div>
+              <div className='modalLinks'>
+                <div>
+                  <h3>Join My-Twit Today</h3>
+                  <Button fullWidth variant='contained' onClick={showRegisModal}>Register</Button>
+                </div>
+                <div>
+                  <h3>Already have an account ?</h3>
+                  <Button fullWidth variant='outlined' onClick={showLoginModal}>Login</Button>
+                </div>
+              </div>
             </div>
           </Grid>
       </Grid>
-      {/* <Button variant='outlined' onClick={showLoginModal}>Login</Button>
-      <Button variant='contained' onClick={showRegisModal}>Register</Button> */}
+      
       <div>
         <LoginModal loginModal={loginModal} setLoginModal={setLoginModal}/>
         <RegisterModal regisModal={regisModal} setRegisModal={setRegisModal}/>
