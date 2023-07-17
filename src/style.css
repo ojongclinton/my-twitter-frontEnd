@@ -77,8 +77,26 @@ div.authComponent h3{
 div.authComponent h1{
     font-size: 70px;
 }
-
-
+div.footerContainer{
+    background-color: #000000;
+    padding: 15px;
+}
+div.footerContainer div{
+    /* display: flex;
+    justify-content: space-between; */
+    margin: auto;
+    
+}
+div.footerContainer a{
+    text-decoration: none;
+    color: rgb(113, 118, 123);
+    text-align: center;
+    font-weight: 100;
+    font-size: 13px;
+}
+div.footerContainer a:hover{
+    text-decoration: underline;
+}
 
 @media all and (min-width: 600px) and (max-width: 900px) { 
     div.birdContainer{

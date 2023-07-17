@@ -25,7 +25,6 @@ export const TwitController =()=>{
 export const Auth=()=>{
     return(
         <>
-            <NoAuthHeader />
                 <Routes>
                     <Route element={<CheckUserIsNotAuth />}>
                         <Route path='/' element={<AuthComponent/>} />
