@@ -1,22 +1,24 @@
 import { Routes,Route } from "react-router-dom";
-import Header from "./Components/Layout/Header";
-import Footer from "./Components/Layout/Footer";
-import Auth from "./Components/Authentication/Auth";
-import AuthComponent from "./Components/Authentication/AuthComponent";
 import { ToastContainer } from "react-toastify";
+import { TwitController,ExploreController, Auth } from "./Routes";
 
 
 function App() {
   return (
     <div className="App">
       <ToastContainer />
-      {/* <Header /> */}
         <div>
             <Routes>
-              <Route path="/auth" element={<AuthComponent />}/>
+              {/*TODO: Block authenticated users from accesing this page */}
+              <Route path="/auth" element={<Auth/>}/>
+
+              {/*If the user is not yet auth when trying to visit this, redirect to auth*/}
+              <Route path="/*" element={<TwitController />}/>
+
+              {/*User can visit here without needing to be auth*/}
+              <Route path="explore/*" element={<ExploreController />}/>
             </Routes>
         </div>
-      {/* <Footer /> */}
     </div>
   );
 }

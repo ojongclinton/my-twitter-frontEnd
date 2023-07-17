@@ -1,9 +1,13 @@
 import React from 'react'
 
-function Header() {
-  return (
-    <div>Header</div>
+export const AuthHeader = ()=>{
+  return(
+    <p>user is authenticated !</p>
   )
 }
 
-export default Header
+export const NoAuthHeader = ()=>{
+  return(
+    <p>user is not authenticated !</p>
+  )
+}

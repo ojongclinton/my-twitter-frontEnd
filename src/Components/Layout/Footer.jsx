@@ -1,9 +1,13 @@
 import React from 'react'
 
-function Footer() {
-  return (
-    <div>Footer</div>
+export const AuthFooter =()=>{
+  return(
+    <p>User is Auth</p>
   )
 }
 
-export default Footer
+export const NoAuthFooter =()=>{
+  return(
+    <p>User is not Auth</p>
+  )
+}
